@@ -33,7 +33,7 @@ resource "aws_kms_key" "kms_s3_key" {
 }
 
 resource "aws_kms_alias" "kms_s3_key_alias" {
-    name          = "alias/s3-key-${random_string.suffix.id}"
+    name          = "alias/s3-key-${random_id.suffix.dec}"
     target_key_id = aws_kms_key.kms_s3_key.key_id
 }
 
