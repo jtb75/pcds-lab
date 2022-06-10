@@ -15,11 +15,10 @@ provider "aws" {
 }
 
 ###########################
-# Generate random string
+# Generate random id
 ###########################
-resource "random_string" "suffix" {
+resource "random_id" "suffix" {
   length = 6
-  special = false
 }
 
 ###########################
@@ -42,17 +41,17 @@ resource "aws_kms_alias" "kms_s3_key_alias" {
 # Bucket creation
 ########################
 resource "aws_s3_bucket" "my_protected_bucket" {
-  bucket = "my-protected-bucket-${random_string.suffix.id}"
+  bucket = "my-protected-bucket-${random_id.suffix.dec}"
   force_destroy = true
 }
 
 resource "aws_s3_bucket" "my_private_bucket" {
-  bucket = "my-private-bucket-${random_string.suffix.id}"
+  bucket = "my-private-bucket-${random_id.suffix.dec}"
   force_destroy = true
 }
 
 resource "aws_s3_bucket" "my_public_bucket" {
-  bucket = "my-public-bucket-${random_string.suffix.id}"
+  bucket = "my-public-bucket-${random_id.suffix.dec}"
   force_destroy = true
 }
 
