@@ -18,7 +18,7 @@ provider "aws" {
 # Generate random id
 ###########################
 resource "random_id" "suffix" {
-  length = 6
+  byte_length = 6
 }
 
 ###########################
