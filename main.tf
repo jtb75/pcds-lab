@@ -11,7 +11,15 @@ terraform {
 
 provider "aws" {
   profile = "default"
-  region  = var.aws_region
+  region  = "us-east-1"
+}
+
+###########################
+# Generate random string
+###########################
+resource "random_string" "suffix" {
+  length = 6
+  special = false
 }
 
 ###########################
@@ -26,7 +34,7 @@ resource "aws_kms_key" "kms_s3_key" {
 }
 
 resource "aws_kms_alias" "kms_s3_key_alias" {
-    name          = "alias/s3-key"
+    name          = "alias/s3-key-${random_string.suffix.id}"
     target_key_id = aws_kms_key.kms_s3_key.key_id
 }
 
@@ -34,17 +42,17 @@ resource "aws_kms_alias" "kms_s3_key_alias" {
 # Bucket creation
 ########################
 resource "aws_s3_bucket" "my_protected_bucket" {
-  bucket = var.protected_bucket_name
+  bucket = "my-protected-bucket-${random_string.suffix.id}"
   force_destroy = true
 }
 
 resource "aws_s3_bucket" "my_private_bucket" {
-  bucket = var.private_bucket_name
+  bucket = "my-private-bucket-${random_string.suffix.id}"
   force_destroy = true
 }
 
 resource "aws_s3_bucket" "my_public_bucket" {
-  bucket = var.public_bucket_name
+  bucket = "my-public-bucket-${random_string.suffix.id}"
   force_destroy = true
 }
 
